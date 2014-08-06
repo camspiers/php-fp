@@ -39,8 +39,7 @@ function compose(...$fns) {
     $prev = array_shift($fns);
 
     foreach ($fns as $fn) {
-        $prev = function ($x) use ($fn, $prev) {
-            $args = func_get_args();
+        $prev = function (...$args) use ($fn, $prev) {
             return $prev($fn(...$args));
         };
     }
