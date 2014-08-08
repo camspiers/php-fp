@@ -1,6 +1,6 @@
 <?php
 
-namespace FP;
+namespace fp;
 
 /**
  * Returns a function that can be invoked without all arguments.
@@ -10,7 +10,7 @@ namespace FP;
  * @param callable $fn
  * @param array $appliedArgs
  * @param int|void $parameterNumber
- * @return callable
+ * @return \Closure
  */
 function curry(callable $fn, $appliedArgs = [], $parameterNumber = null) {
     if (is_null($parameterNumber)) {
@@ -32,7 +32,7 @@ function curry(callable $fn, $appliedArgs = [], $parameterNumber = null) {
 /**
  * Returns a new function which is a composition the supplied functions
  * @param callable[] ...$fns
- * @return callable
+ * @return \Closure
  */
 function compose(...$fns) {
     /** @var callable $prev */
