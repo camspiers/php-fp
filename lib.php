@@ -4,16 +4,24 @@ namespace fp;
 
 /**
  * @param $fn
- * @return callable
+ * @return \Closure
  */
-function cached_curry($fn, $name = null) {
+function _cached_curry($fn) {
     static $cache = [];
-    $name = $name ?: $fn;
-    if (isset($cache[$name])) {
-        return $cache[$name];
+    if (isset($cache[$fn])) {
+        return $cache[$fn];
     } else {
-        return $cache[$name] = curry($fn);
+        return $cache[$fn] = curry($fn);
     }
+}
+
+/**
+ * @param $fn
+ * @param $args
+ * @return mixed
+ */
+function _call_cached_curry($fn, ...$args) {
+    return _cached_curry($fn)->__invoke(...$args);
 }
 
 /**
@@ -22,7 +30,7 @@ function cached_curry($fn, $name = null) {
  * @return callable|mixed
  */
 function range($start, ...$args) {
-    return cached_curry('iter\range')->__invoke($start, ...$args);
+    return _call_cached_curry('iter\range', $start, ...$args);
 }
 
 /**
@@ -31,7 +39,7 @@ function range($start, ...$args) {
  * @return callable||array
  */
 function map($function, ...$args) {
-    return cached_curry('iter\map')->__invoke($function, ...$args);
+    return _call_cached_curry('iter\map', $function, ...$args);
 }
 
 /**
@@ -40,7 +48,7 @@ function map($function, ...$args) {
  * @return callable|mixed
  */
 function mapKeys($function, ...$args) {
-    return cached_curry('iter\mapKeys')->__invoke($function, ...$args);
+    return _call_cached_curry('iter\mapKeys', $function, ...$args);
 }
 
 /**
@@ -49,7 +57,7 @@ function mapKeys($function, ...$args) {
  * @return callable|mixed
  */
 function reindex($function, ...$args) {
-    return cached_curry('iter\reindex')->__invoke($function, ...$args);
+    return _call_cached_curry('iter\reindex', $function, ...$args);
 }
 
 /**
@@ -58,7 +66,7 @@ function reindex($function, ...$args) {
  * @return callable|mixed
  */
 function filter($predicate, ...$args) {
-    return cached_curry('iter\filter')->__invoke($predicate, ...$args);
+    return _call_cached_curry('iter\filter', $predicate, ...$args);
 }
 
 /**
@@ -67,7 +75,7 @@ function filter($predicate, ...$args) {
  * @return callable|mixed
  */
 function reduce(callable $function, ...$args) {
-    return cached_curry('iter\reduce')->__invoke($function, ...$args);
+    return _call_cached_curry('iter\reduce', $function, ...$args);
 }
 
 /**
@@ -76,7 +84,7 @@ function reduce(callable $function, ...$args) {
  * @return callable|mixed
  */
 function any(callable $predicate, ...$args) {
-    return cached_curry('iter\any')->__invoke($predicate, ...$args);
+    return _call_cached_curry('iter\any')->__invoke($predicate, ...$args);
 }
 
 /**
@@ -85,7 +93,7 @@ function any(callable $predicate, ...$args) {
  * @return callable|mixed
  */
 function all(callable $predicate, ...$args) {
-    return cached_curry('iter\all')->__invoke($predicate, ...$args);
+    return _call_cached_curry('iter\all', $predicate, ...$args);
 }
 
 /**
@@ -94,5 +102,23 @@ function all(callable $predicate, ...$args) {
  * @return callable|mixed
  */
 function takeWhile(callable $predicate, ...$args) {
-    return cached_curry('iter\takeWhile')->__invoke($predicate, ...$args);
+    return _call_cached_curry('iter\takeWhile', $predicate, ...$args);
+}
+
+/**
+ * @param callable $predicate
+ * @param $args
+ * @return callable|mixed
+ */
+function dropWhile(callable $predicate, ...$args) {
+    return _call_cached_curry('iter\dropWhile', $predicate, ...$args);
+}
+
+/**
+ * @param $separator
+ * @param $args
+ * @return callable|mixed
+ */
+function join($separator, ...$args) {
+    return _call_cached_curry('iter/join', $separator, ...$args);
 }

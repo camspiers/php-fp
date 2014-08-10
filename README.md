@@ -28,9 +28,9 @@ echo $addTitle('Spiers');
 use function fp\compose as co;
 $h = co($f, $g);
 ```
+
 Function composition will return a new function (`$h`) which will first apply the second function (`$g`), pass its
 result into the first (`$f`).
-
 
 ## Usage
 
@@ -40,7 +40,7 @@ result into the first (`$f`).
 $map = fp\curry('array_map');
 ```
 
-### Make curryable functions
+### Create non-closure functions that are curryable
 
 ```php
 function _tag($tag, $text) {
