@@ -11,7 +11,6 @@ e.g.
 
 ```php
 use function fp\curry as c;
-use function iter\fn\operator as op;
 
 $concat = c(function ($a, $b) { return $a . $b; });
 
