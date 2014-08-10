@@ -13,8 +13,7 @@ e.g.
 use function fp\curry as c;
 use function iter\fn\operator as op;
 
-// op('.') returns a function that concat's two arguments
-$concat = c(op('.'));
+$concat = c(function ($a, $b) { return $a . $b; });
 
 $addTitle = $concat('Mr. ');
 
