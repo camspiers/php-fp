@@ -10,6 +10,9 @@
 		"nikic/iter": "~1.1"
 	},
 	"autoload": {
-		"files": ["fp.php"]
+		"files": ["bootstrap.php"]
+	},
+	"require-dev": {
+		"camspiers/bench": "dev-master"
 	}
 }

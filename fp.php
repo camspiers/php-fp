@@ -3,29 +3,54 @@
 namespace fp;
 
 /**
- * Returns a function that can be invoked without all arguments.
- * 
+ * Returns a function that can be invoked without all required arguments.
+ *
  * Doing so will return a new function with the previous argument applied.
- * 
+ *
  * @param callable $fn
- * @param array $appliedArgs
- * @param int|void $parameterNumber
  * @return \Closure
  */
-function curry(callable $fn, $appliedArgs = [], $parameterNumber = null) {
-    if (is_null($parameterNumber)) {
-        $rf = is_array($fn) ? new \ReflectionMethod(...$fn) : new \ReflectionFunction($fn);
-        $parameterNumber = $rf->getNumberOfRequiredParameters();
-    }
+function curry(callable $fn) {
+    $rf = is_array($fn) ? new \ReflectionMethod(...$fn) : new \ReflectionFunction($fn);
+    return _curry($fn, [], $rf->getNumberOfRequiredParameters());
+}
 
-    return function (...$args) use ($fn, $appliedArgs, $parameterNumber) {
+/**
+ * Internal function used for the main currying functionality
+ * @param callable $fn
+ * @param $appliedArgs
+ * @param $requiredParameters
+ * @return callable
+ */
+function _curry(callable $fn, $appliedArgs, $requiredParameters) {
+    return function (...$args) use ($fn, $appliedArgs, $requiredParameters) {
         array_push($appliedArgs, ...$args);
 
-        if (count($appliedArgs) >= $parameterNumber) {
-            return $fn(...$appliedArgs);
-        }
+        // Get the number of arguments currently applied
+        $appliedArgsCount = count($appliedArgs);
 
-        return curry($fn, $appliedArgs, $parameterNumber);
+        // If we have the required number of arguments call the function
+        if ($appliedArgsCount >= $requiredParameters) {
+            return $fn(...$appliedArgs);
+        // If we will have the required arguments on the next call, return an optimized function
+        } elseif ($appliedArgsCount + 1 === $requiredParameters) {
+            return _curry_last($fn, $appliedArgs);
+        // Return the standard full curry
+        } else {
+            return _curry($fn, $appliedArgs, $requiredParameters);
+        }
+    };
+}
+
+/**
+ * Internal function used for when there is only one required argument left to be applied
+ * @param callable $fn
+ * @param $appliedArgs
+ * @return callable
+ */
+function _curry_last(callable $fn, $appliedArgs) {
+    return function (...$args) use ($fn, $appliedArgs) {
+        return $args ? $fn(...$appliedArgs, ...$args) : _curry_last($fn, $appliedArgs);
     };
 }
 
