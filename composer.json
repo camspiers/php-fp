@@ -7,6 +7,7 @@
 		"email": "camspiers@gmail.com"
 	}],
 	"require": {
+		"php": ">=5.6.0-dev",
 		"nikic/iter": "~1.1"
 	},
 	"autoload": {

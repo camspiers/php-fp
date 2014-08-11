@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a007904a33128fd678294a574ef51a11",
+    "hash": "a06a37c535acae8cc28f9e36e54a4640",
     "packages": [
         {
             "name": "nikic/iter",
@@ -91,9 +91,12 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "php": 20,
         "camspiers/bench": 20
     },
     "prefer-stable": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.6.0-dev"
+    },
     "platform-dev": []
 }
