@@ -84,7 +84,7 @@ function reduce(callable $function, ...$args) {
  * @return callable|mixed
  */
 function any(callable $predicate, ...$args) {
-    return _call_cached_curry('iter\any')->__invoke($predicate, ...$args);
+    return _call_cached_curry('iter\any', $predicate, ...$args);
 }
 
 /**
