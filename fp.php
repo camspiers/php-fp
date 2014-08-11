@@ -34,7 +34,7 @@ function _curry(callable $fn, $appliedArgs, $requiredParameters) {
             return $fn(...$appliedArgs);
         // If we will have the required arguments on the next call, return an optimized function
         } elseif ($appliedArgsCount + 1 === $requiredParameters) {
-            return bind($fn, $appliedArgs);
+            return bind($fn, ...$appliedArgs);
         // Return the standard full curry
         } else {
             return _curry($fn, $appliedArgs, $requiredParameters);
@@ -48,7 +48,7 @@ function _curry(callable $fn, $appliedArgs, $requiredParameters) {
  * @param $appliedArgs
  * @return callable
  */
-function bind(callable $fn, $appliedArgs) {
+function bind(callable $fn, ...$appliedArgs) {
     return function (...$args) use ($fn, $appliedArgs) {
         return $fn(...$appliedArgs, ...$args);
     };
