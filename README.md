@@ -10,10 +10,8 @@ This programming pattern can be used to build up more complex functions from les
 e.g.
 
 ```php
-use function fp\curry as c;
-
 // Create a curryable function
-$concat = c(function ($a, $b) { return $a . $b; });
+$concat = fp\curry(function ($a, $b) { return $a . $b; });
 
 // Create a new function with 'Mr. ' applied
 $addTitle = $concat('Mr. ');
@@ -25,8 +23,7 @@ echo $addTitle('Spiers');
 ## Composition
 
 ```php
-use function fp\compose as co;
-$h = co($f, $g);
+$h = fp\compose($f, $g);
 ```
 
 Function composition will return a new function (`$h`) which will first apply the second function (`$g`), pass its
